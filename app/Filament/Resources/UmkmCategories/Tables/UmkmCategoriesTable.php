@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\Users\Tables;
+namespace App\Filament\Resources\UmkmCategories\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class UsersTable
+class UmkmCategoriesTable
 {
     public static function configure(Table $table): Table
     {
@@ -17,9 +18,10 @@ class UsersTable
                 TextColumn::make('index')->label('#')->rowIndex(),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email address')
+                TextColumn::make('slug')
                     ->searchable(),
+                IconColumn::make('is_active')
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
