@@ -20,7 +20,8 @@ class NewsInfolist
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('content')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->html(),
                 TextEntry::make('author_id')
                     ->numeric()
                     ->placeholder('-'),

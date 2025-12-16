@@ -41,6 +41,14 @@ class UmkmCategory extends Model
         return $this->hasMany(UmkmOwner::class, 'category_id');
     }
 
+    /**
+     * Get the products for the category.
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'umkm_category_id');
+    }
+
     protected static function booted(): void
     {
         static::creating(function (UmkmCategory $model) {

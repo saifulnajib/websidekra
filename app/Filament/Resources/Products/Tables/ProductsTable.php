@@ -1,36 +1,38 @@
 <?php
 
-namespace App\Filament\Resources\UmkmOwners\Tables;
+namespace App\Filament\Resources\Products\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
-class UmkmOwnersTable
+class ProductsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
                 TextColumn::make('index')->label('#')->rowIndex(),
-                TextColumn::make('owner_name')->label('Nama Pemilik')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('phone_number')->label('No. Telp')
+                ImageColumn::make('file')
+                    ->disk('public')
+                    ->height(50)
+                    ->width(50),
+                TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email')
+                TextColumn::make('price')
+                    ->money()
+                    ->sortable(),
+                TextColumn::make('umkmOwner.business_name')
+                    ->label('UMKM Owner')
                     ->searchable(),
-                TextColumn::make('business_name')->label('Nama UMKM')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('category.name')->label('Kategori')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('status')
-                    ->badge(),
+                TextColumn::make('umkmCategory.name')
+                    ->label('Category')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -44,6 +46,7 @@ class UmkmOwnersTable
                 //
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

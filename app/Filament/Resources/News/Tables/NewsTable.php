@@ -20,6 +20,7 @@ class NewsTable
     {
         return $table
             ->columns([
+                TextColumn::make('index')->label('#')->rowIndex(),
                 TextColumn::make('title')
                     ->searchable(),
                 TextColumn::make('slug')

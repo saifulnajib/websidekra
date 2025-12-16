@@ -50,4 +50,12 @@ class UmkmOwner extends Model
     {
         return $this->belongsTo(UmkmCategory::class, 'category_id');
     }
+
+    /**
+     * Get the products for the UMKM owner.
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'umkm_owner_id');
+    }
 }
