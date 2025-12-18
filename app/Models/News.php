@@ -61,6 +61,14 @@ class News extends Model
     }
 
     /**
+     * Get the galleries for the news.
+     */
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class);
+    }
+
+    /**
      * Scope a query to only published news.
      */
     public function scopePublished($query)

@@ -9,6 +9,7 @@ use App\Filament\Resources\UmkmCategories\Schemas\UmkmCategoryForm;
 use App\Filament\Resources\UmkmCategories\Tables\UmkmCategoriesTable;
 use App\Models\UmkmCategory;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -26,6 +27,8 @@ class UmkmCategoryResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Kategori UMKM';
     protected static ?string $recordTitleAttribute = 'Kategori UMKM';
+
+    protected static string | UnitEnum | null $navigationGroup = 'Master';
 
     public static function form(Schema $schema): Schema
     {
