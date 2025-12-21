@@ -16,4 +16,15 @@ class EditSiteConfig extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function fillForm(): void
+    {
+        $record = $this->getRecord();
+        $data = $record->toArray();
+
+        // Apply the resource's mutateFormDataBeforeFill method
+        $data = static::getResource()::mutateFormDataBeforeFill($data);
+
+        $this->form->fill($data);
+    }
 }

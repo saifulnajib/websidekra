@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIDEKRA - Sistem Informasi Pengrajin dan Produk Unggulan Daerah</title>
+    <title>{{$site_title}}</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -57,7 +57,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="hero-title">Wujudkan Potensi Ekonomi Kreatif Daerah</h1>
+                    <h1 class="hero-title">{{$hero_title}}</h1>
                     <p class="hero-subtitle">SIDEKRA menghubungkan pengrajin lokal dengan pasar global, mendorong pertumbuhan ekonomi kreatif berbasis kearifan lokal.</p>
                     <div class="d-flex flex-wrap gap-3">
                         <a href="#products" class="btn btn-primary-custom">Jelajahi Produk</a>

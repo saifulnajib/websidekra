@@ -36,36 +36,78 @@ class SiteConfigForm
                     ->required()
                     ->default('text')
                     ->live()
-                    ->afterStateUpdated(function ($state, callable $set) {
-                        // Reset value when type changes
-                        if ($state === 'boolean') {
-                            $set('value', '0');
-                        } elseif ($state === 'json' || $state === 'array') {
-                            $set('value', '[]');
-                        } else {
-                            $set('value', '');
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        $currentValue = $get('value');
+                        // Reset all type-specific fields
+                        $set('value_textarea', '');
+                        $set('value_boolean', false);
+                        $set('value_file', null);
+                        $set('value_json', []);
+
+                        // If we have a current value, try to convert it to the new type
+                        if ($currentValue) {
+                            switch ($state) {
+                                case 'boolean':
+                                    $set('value_boolean', filter_var($currentValue, FILTER_VALIDATE_BOOLEAN));
+                                    break;
+                                case 'textarea':
+                                    $set('value_textarea', $currentValue);
+                                    break;
+                                case 'json':
+                                    if (is_string($currentValue)) {
+                                        $decoded = json_decode($currentValue, true);
+                                        $set('value_json', $decoded ?? []);
+                                    } elseif (is_array($currentValue)) {
+                                        $set('value_json', $currentValue);
+                                    }
+                                    break;
+                                case 'file':
+                                case 'image':
+                                    $set('value_file', $currentValue);
+                                    break;
+                            }
                         }
                     }),
 
-                // Dynamic value field based on type
+                // Single value field that adapts based on type
                 TextInput::make('value')
                     ->label('Value')
                     ->required()
                     ->visible(fn (callable $get) => in_array($get('type'), ['text', 'email', 'url', 'number']))
-                    ->type(fn (callable $get) => $get('type') === 'number' ? 'number' : 'text'),
+                    ->type(fn (callable $get) => $get('type') === 'number' ? 'number' : 'text')
+                    ->dehydrateStateUsing(function ($state, callable $get) {
+                        $type = $get('type');
+                        return match ($type) {
+                            'number' => (string) $state,
+                            default => $state,
+                        };
+                    })
+                    ->mutateDehydratedStateUsing(function ($state, callable $get) {
+                        $type = $get('type');
+                        return match ($type) {
+                            'number' => (int) $state,
+                            default => $state,
+                        };
+                    }),
 
-                Textarea::make('value')
+                Textarea::make('value_textarea')
                     ->label('Value')
                     ->required()
                     ->visible(fn (callable $get) => $get('type') === 'textarea')
+                    ->dehydrateStateUsing(fn ($state) => $state)
+                    ->mutateDehydratedStateUsing(fn ($state) => $state)
+                    ->default('')
                     ->columnSpanFull(),
 
-                Toggle::make('value')
+                Toggle::make('value_boolean')
                     ->label('Value')
                     ->required()
-                    ->visible(fn (callable $get) => $get('type') === 'boolean'),
+                    ->visible(fn (callable $get) => $get('type') === 'boolean')
+                    ->dehydrateStateUsing(fn ($state) => $state ? '1' : '0')
+                    ->mutateDehydratedStateUsing(fn ($state) => filter_var($state, FILTER_VALIDATE_BOOLEAN))
+                    ->default(false),
 
-                FileUpload::make('value')
+                FileUpload::make('value_file')
                     ->label('File')
                     ->required()
                     ->visible(fn (callable $get) => in_array($get('type'), ['file', 'image']))
@@ -76,12 +118,21 @@ class SiteConfigForm
                     )
                     ->maxSize(5120), // 5MB
 
-                KeyValue::make('value')
+                KeyValue::make('value_json')
                     ->label('JSON Data')
                     ->required()
                     ->visible(fn (callable $get) => $get('type') === 'json')
                     ->columnSpanFull()
-                    ->addActionLabel('Add Property'),
+                    ->addActionLabel('Add Property')
+                    ->dehydrateStateUsing(fn ($state) => json_encode($state))
+                    ->mutateDehydratedStateUsing(function ($state) {
+                        if (is_string($state)) {
+                            $decoded = json_decode($state, true);
+                            return $decoded ?? [];
+                        }
+                        return is_array($state) ? $state : [];
+                    })
+                    ->default([]),
 
                 Textarea::make('description')
                     ->columnSpanFull()

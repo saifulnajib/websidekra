@@ -28,7 +28,26 @@ class SiteConfigsTable
                 TextColumn::make('value')
                     ->limit(50)
                     ->tooltip(function ($record) {
-                        return strlen($record->value) > 50 ? $record->value : null;
+                        $value = $record->value;
+                        if (is_string($value) && strlen($value) > 50) {
+                            return $value;
+                        }
+                        if (is_array($value) || is_object($value)) {
+                            return json_encode($value, JSON_PRETTY_PRINT);
+                        }
+                        return null;
+                    })
+                    ->formatStateUsing(function ($state, $record) {
+                        if ($record->type === 'boolean') {
+                            return filter_var($state, FILTER_VALIDATE_BOOLEAN) ? 'Yes' : 'No';
+                        }
+                        if (is_array($state) || is_object($state)) {
+                            return '[Complex Data]';
+                        }
+                        if (is_string($state) && strlen($state) > 50) {
+                            return substr($state, 0, 50) . '...';
+                        }
+                        return $state;
                     })
                     ->placeholder('-'),
 

@@ -105,6 +105,33 @@ class SiteConfig extends Model
     }
 
     /**
+     * Get value formatted for form input
+     */
+    public function getFormValueAttribute()
+    {
+        return match ($this->type) {
+            'boolean' => filter_var($this->value, FILTER_VALIDATE_BOOLEAN),
+            'integer', 'number' => (int) $this->value,
+            'float' => (float) $this->value,
+            'json' => json_decode($this->value, true) ?? [],
+            'array' => json_decode($this->value, true) ?? [],
+            default => $this->value,
+        };
+    }
+
+    /**
+     * Set value from form input
+     */
+    public function setFormValueAttribute($value)
+    {
+        $this->value = match ($this->type) {
+            'boolean' => $value ? '1' : '0',
+            'json', 'array' => json_encode($value),
+            default => (string) $value,
+        };
+    }
+
+    /**
      * Clear all configuration cache
      */
     public static function clearCache(): void

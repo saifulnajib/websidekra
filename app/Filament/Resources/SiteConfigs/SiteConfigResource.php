@@ -33,6 +33,76 @@ class SiteConfigResource extends Resource
         return SiteConfigForm::configure($schema);
     }
 
+    public static function mutateFormDataBeforeFill(array $data): array
+    {
+        if (isset($data['type']) && isset($data['value'])) {
+            // Map the database value to the appropriate form field based on type
+            $type = $data['type'];
+            $value = $data['value'];
+
+            switch ($type) {
+                case 'textarea':
+                    $data['value_textarea'] = $value;
+                    break;
+                case 'boolean':
+                    $data['value_boolean'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                    break;
+                case 'file':
+                case 'image':
+                    $data['value_file'] = $value;
+                    break;
+                case 'json':
+                    if (is_string($value)) {
+                        $decoded = json_decode($value, true);
+                        $data['value_json'] = $decoded ?? [];
+                    } elseif (is_array($value)) {
+                        $data['value_json'] = $value;
+                    } else {
+                        $data['value_json'] = [];
+                    }
+                    break;
+                default:
+                    // For text, email, url, number - keep in main 'value' field
+                    break;
+            }
+        }
+        return $data;
+    }
+
+    public static function mutateFormDataBeforeSave(array $data): array
+    {
+        if (isset($data['type'])) {
+            $type = $data['type'];
+
+            // Get the value from the appropriate form field
+            switch ($type) {
+                case 'textarea':
+                    $data['value'] = $data['value_textarea'] ?? '';
+                    break;
+                case 'boolean':
+                    $data['value'] = ($data['value_boolean'] ?? false) ? '1' : '0';
+                    break;
+                case 'file':
+                case 'image':
+                    $data['value'] = $data['value_file'] ?? '';
+                    break;
+                case 'json':
+                    $jsonData = $data['value_json'] ?? [];
+                    $data['value'] = json_encode($jsonData);
+                    break;
+                default:
+                    // For text, email, url, number - already in 'value' field
+                    $data['value'] = (string) ($data['value'] ?? '');
+                    break;
+            }
+
+            // Remove the form-specific fields from data before saving
+            unset($data['value_textarea'], $data['value_boolean'], $data['value_file'], $data['value_json']);
+        }
+
+        return $data;
+    }
+
     public static function table(Table $table): Table
     {
         return SiteConfigsTable::configure($table);
