@@ -28,7 +28,9 @@ class NewsForm
                 DateTimePicker::make('published_at')->label('Tanggal Terbit')
                     ->nullable(),
                 FileUpload::make('featured_image_path')->label('Gambar')
-                    ->image(),
+                    ->image()
+                    ->disk('public')
+                    ->directory('news'),
                 Hidden::make('views')
                     ->default(0),
                 TextInput::make('meta_title'),

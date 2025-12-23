@@ -1,84 +1,46 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$site_title}}</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/frontend/style.css') }}">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="https://www.tanjungpinangkota.go.id/images/lambang_235.png" alt="SIDEKRA Logo" height="40">
-                <img src="https://dekranasda.kepriprov.go.id/resources/config/icon-dkn.png" alt="SIDEKRA Logo" height="40" class="me-0">
-                <i class="fas fa-hands-helping me-2"></i>SIDEKRA
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link " href="#home">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="#features">Fitur</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#products">Produk</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#artisans">Pengrajin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Tentang</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#gallery">Galeri</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Kontak</a>
-                    </li>
-                </ul>
-                <a href="#register" class="btn btn-outline-custom ms-lg-3">Daftar Sekarang</a>
+@extends('layouts.app', ['active' => 'home', 'title' => $site_title ?? 'SIDEKRA - Sistem Informasi UMKM'])
+
+@section('content')
+<!-- Hero Section -->
+<section class="hero-section" id="home">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="hero-title">{{ $hero_title ?? 'Selamat Datang di SIDEKRA' }}</h1>
+                <p class="hero-subtitle">{{ $hero_subtitle ?? 'SIDEKRA menghubungkan pengrajin lokal dengan pasar global, mendorong pertumbuhan ekonomi kreatif berbasis kearifan lokal.' }}</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#products" class="btn btn-primary-custom">{{ $hero_button_text ?? 'Jelajahi Produk' }}</a>
+                    <a href="#register" class="btn btn-outline-custom">Daftar Sebagai Pengrajin</a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="{{ $hero_background_image ?? 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80' }}" alt="Kerajinan Tangan" class="img-fluid rounded-4 floating">
             </div>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <!-- Hero Section -->
-    <section class="hero-section" id="home">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="hero-title">{{$hero_title}}</h1>
-                    <p class="hero-subtitle">SIDEKRA menghubungkan pengrajin lokal dengan pasar global, mendorong pertumbuhan ekonomi kreatif berbasis kearifan lokal.</p>
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="#products" class="btn btn-primary-custom">Jelajahi Produk</a>
-                        <a href="#register" class="btn btn-outline-custom">Daftar Sebagai Pengrajin</a>
+<!-- Features Section -->
+<section class="py-5 my-5" id="features">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">{{ $features_title ?? 'Apa yang Kami Tawarkan' }}</h2>
+            <p class="lead">SIDEKRA memberikan solusi komprehensif untuk pengembangan industri kerajinan daerah</p>
+        </div>
+        <div class="row g-4">
+            @if(isset($features) && is_array($features))
+                @foreach($features as $feature)
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-{{ $feature['icon'] ?? 'star' }}"></i>
+                        </div>
+                        <h3>{{ $feature['title'] ?? 'Fitur' }}</h3>
+                        <p>{{ $feature['description'] ?? 'Deskripsi fitur' }}</p>
                     </div>
                 </div>
-                <div class="col-lg-6 d-none d-lg-block">
-                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Kerajinan Tangan" class="img-fluid rounded-4 floating">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="py-5 my-5" id="features">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Apa yang Kami Tawarkan</h2>
-                <p class="lead">SIDEKRA memberikan solusi komprehensif untuk pengembangan industri kerajinan daerah</p>
-            </div>
-            <div class="row g-4">
+                @endforeach
+            @else
                 <div class="col-md-6 col-lg-3">
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -115,89 +77,90 @@
                         <p>Membangun jaringan antara pengrajin, pembeli, dan pemangku kepentingan terkait.</p>
                     </div>
                 </div>
+            @endif
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section class="py-5 bg-light" id="products">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Produk Unggulan</h2>
+            <p class="lead">Temukan berbagai kerajinan tangan berkualitas dari pengrajin lokal</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card product-card">
+                    <img src="https://images.unsplash.com/photo-1595703013566-db085ae93c04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1588&q=80" class="card-img-top product-img" alt="Tenun Tradisional">
+                    <div class="card-body">
+                        <span class="product-category">Tekstil</span>
+                        <h5 class="product-title">Kain Tenun Ikat Flores</h5>
+                        <p class="card-text">Kain tenun tradisional dengan motif khas Flores, dibuat secara manual oleh pengrajin berpengalaman.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">Rp 450.000</span>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card product-card">
+                    <img src="https://plus.unsplash.com/premium_photo-1675719070429-bb6b722b7593?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=774" class="card-img-top product-img" alt="Keramik">
+                    <div class="card-body">
+                        <span class="product-category">Keramik</span>
+                        <h5 class="product-title">Gerabah Kasongan</h5>
+                        <p class="card-text">Gerabah tradisional dari Kasongan dengan desain unik dan kualitas tinggi, cocok untuk dekorasi.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">Rp 325.000</span>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card product-card">
+                    <img src="https://images.unsplash.com/photo-1668008555730-c390ae0b0247?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870" class="card-img-top product-img" alt="Anyaman">
+                    <div class="card-body">
+                        <span class="product-category">Anyaman</span>
+                        <h5 class="product-title">Tas Anyaman Rotan</h5>
+                        <p class="card-text">Tas anyaman rotan dengan desain modern dan kuat, hasil karya pengrajin Tasikmalaya.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">Rp 275.000</span>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card product-card">
+                    <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1075&q=80" class="card-img-top product-img" alt="Perak">
+                    <div class="card-body">
+                        <span class="product-category">Perhiasan</span>
+                        <h5 class="product-title">Perak Kotagede</h5>
+                        <p class="card-text">Perhiasan perak dengan motif tradisional Yogyakarta, dibuat oleh pengrajin Kotagede berpengalaman.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">Rp 650.000</span>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="py-5 bg-light" id="products">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Produk Unggulan</h2>
-                <p class="lead">Temukan berbagai kerajinan tangan berkualitas dari pengrajin lokal</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="card product-card">
-                        <img src="https://images.unsplash.com/photo-1595703013566-db085ae93c04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1588&q=80" class="card-img-top product-img" alt="Tenun Tradisional">
-                        <div class="card-body">
-                            <span class="product-category">Tekstil</span>
-                            <h5 class="product-title">Kain Tenun Ikat Flores</h5>
-                            <p class="card-text">Kain tenun tradisional dengan motif khas Flores, dibuat secara manual oleh pengrajin berpengalaman.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="product-price">Rp 450.000</span>
-                                <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="card product-card">
-                        <img src="https://plus.unsplash.com/premium_photo-1675719070429-bb6b722b7593?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=774" class="card-img-top product-img" alt="Keramik">
-                        <div class="card-body">
-                            <span class="product-category">Keramik</span>
-                            <h5 class="product-title">Gerabah Kasongan</h5>
-                            <p class="card-text">Gerabah tradisional dari Kasongan dengan desain unik dan kualitas tinggi, cocok untuk dekorasi.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="product-price">Rp 325.000</span>
-                                <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="card product-card">
-                        <img src="https://images.unsplash.com/photo-1668008555730-c390ae0b0247?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870" class="card-img-top product-img" alt="Anyaman">
-                        <div class="card-body">
-                            <span class="product-category">Anyaman</span>
-                            <h5 class="product-title">Tas Anyaman Rotan</h5>
-                            <p class="card-text">Tas anyaman rotan dengan desain modern dan kuat, hasil karya pengrajin Tasikmalaya.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="product-price">Rp 275.000</span>
-                                <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="card product-card">
-                        <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1075&q=80" class="card-img-top product-img" alt="Perak">
-                        <div class="card-body">
-                            <span class="product-category">Perhiasan</span>
-                            <h5 class="product-title">Perak Kotagede</h5>
-                            <p class="card-text">Perhiasan perak dengan motif tradisional Yogyakarta, dibuat oleh pengrajin Kotagede berpengalaman.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="product-price">Rp 650.000</span>
-                                <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-5">
-                <a href="#" class="btn btn-primary-custom">Lihat Semua Produk</a>
-            </div>
+        <div class="text-center mt-5">
+            <a href="#" class="btn btn-primary-custom">Lihat Semua Produk</a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Artisans Section -->
-    <section class="py-5 my-5" id="artisans">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Pengrajin Terbaik Kami</h2>
-                <p class="lead">Bertemu dengan para pengrajin berbakat di balik produk-produk berkualitas</p>
-            </div>
-            <div class="row g-4">
+<!-- Artisans Section -->
+<section class="py-5 my-5" id="artisans">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Pengrajin Terbaik Kami</h2>
+            <p class="lead">Bertemu dengan para pengrajin berbakat di balik produk-produk berkualitas</p>
+        </div>
+        <div class="row g-4">
                 <div class="col-md-6 col-lg-3">
                     <div class="artisan-card">
                         <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Pengrajin Tenun" class="artisan-img">
@@ -253,7 +216,7 @@
                             <span class="news-date">15 Juni 2023</span>
                             <h5 class="news-title">Pameran Kerajinan Nasional 2023</h5>
                             <p class="card-text">SIDEKRA berpartisipasi dalam pameran kerajinan nasional yang diadakan di Jakarta Convention Center...</p>
-                            <a href="#" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
+                            <a href="{{ route('news.index') }}" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -264,7 +227,7 @@
                             <span class="news-date">2 Juni 2023</span>
                             <h5 class="news-title">Pelatihan Pemasaran Digital untuk Pengrajin</h5>
                             <p class="card-text">SIDEKRA menyelenggarakan pelatihan pemasaran digital gratis untuk 100 pengrajin di Jawa Tengah...</p>
-                            <a href="#" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
+                            <a href="{{ route('news.index') }}" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -275,13 +238,13 @@
                             <span class="news-date">20 Mei 2023</span>
                             <h5 class="news-title">Kerajinan Indonesia Tembus Pasar Eropa</h5>
                             <p class="card-text">Produk kerajinan dari pengrajin SIDEKRA berhasil menembus pasar Eropa dengan nilai ekspor mencapai...</p>
-                            <a href="#" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
+                            <a href="{{ route('news.index') }}" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="text-center mt-5">
-                <a href="#" class="btn btn-primary-custom">Lihat Semua Berita</a>
+                <a href="{{ route('news.index') }}" class="btn btn-primary-custom">Lihat Semua Berita</a>
             </div>
         </div>
     </section>
@@ -359,57 +322,268 @@
                 <a href="#" class="btn btn-primary-custom">Lihat Galeri Lengkap</a>
             </div>
         </div>
-    </section>  <!-- Footer -->
-    <footer class="py-5">
+    </section>
+
+    <!-- About Section -->
+    <section class="py-5 my-5" id="about">
         <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4">
-                    <div class="pe-lg-4">
-                        <img src="https://via.placeholder.com/150x50?text=DEKRENASDA" alt="DEKRENASDA Logo" height="40" class="mb-3">
-                        <p class="mb-4">Mengembangkan dan mempromosikan kerajinan tangan lokal sebagai warisan budaya bangsa.</p>
-                        <div class="d-flex">
-                            <a href="#" class="text-dark me-3"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="text-dark me-3"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="text-dark me-3"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="text-dark"><i class="fab fa-youtube"></i></a>
+            <div class="text-center mb-5">
+                <h2 class="section-title">Tentang SIDEKRA</h2>
+                <p class="lead">Mengenal lebih dekat dengan misi dan visi kami</p>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Tentang SIDEKRA" class="img-fluid rounded">
+                </div>
+                <div class="col-lg-6">
+                    <h3>Misi Kami</h3>
+                    <p class="mb-4">{{ $site_description ?? 'SIDEKRA adalah platform digital yang didedikasikan untuk mendukung pengembangan Usaha Mikro Kecil Menengah (UMKM) dan kerajinan daerah di Indonesia.' }}</p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Mendorong ekonomi kreatif</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Melestarikan budaya lokal</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Meningkatkan kualitas produk</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Memperluas pasar</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
-                    <h5 class="footer-heading">Menu</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li class="mb-2"><a href="#">Beranda</a></li>
-                        <li class="mb-2"><a href="#">Tentang Kami</a></li>
-                        <li class="mb-2"><a href="#">Produk</a></li>
-                        <li class="mb-2"><a href="#">Berita</a></li>
-                        <li class="mb-2"><a href="#">Kontak</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4">
-                    <h5 class="footer-heading">Kontak</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Jl. Kerajinan No. 123, Jakarta</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2"></i> (021) 1234-5678</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@dekrenasda.id</li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4">
-                    <h5 class="footer-heading">Newsletter</h5>
-                    <p class="mb-3">Dapatkan update terbaru dari kami</p>
-                    <form class="mb-3">
-                        <div class="input-group">
-                            <input type="email" class="form-control border-end-0" placeholder="Email Anda" aria-label="Email">
-                            <button class="btn btn-outline-dark border-start-0" type="submit">
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <small class="text-muted">Kami tidak akan membagikan email Anda</small>
-                </div>
-            </div>
-            <div class="mt-5 pt-4 border-top text-center">
-                <p class="mb-0 small">&copy; 2023 DEKRENASDA. All rights reserved.</p>
             </div>
         </div>
-    </footer>
-</html>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-5 bg-light" id="contact">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Hubungi Kami</h2>
+                <p class="lead">Kami siap membantu Anda</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="contact-info">
+                        <div class="mb-4">
+                            <i class="fas fa-map-marker-alt fa-2x text-primary-red mb-3"></i>
+                            <h5>Alamat</h5>
+                            <p>{{ $contact_address ?? 'Jl. Raya UMKM No. 123, Jakarta Pusat, Indonesia' }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <i class="fas fa-phone fa-2x text-primary-red mb-3"></i>
+                            <h5>Telepon</h5>
+                            <p>{{ $contact_phone ?? '+62 812-3456-7890' }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <i class="fas fa-envelope fa-2x text-primary-red mb-3"></i>
+                            <h5>Email</h5>
+                            <p>{{ $contact_email ?? 'info@sidekra.com' }}</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-clock fa-2x text-primary-red mb-3"></i>
+                            <h5>Jam Kerja</h5>
+                            <p>{{ $contact_hours ?? 'Senin - Jumat: 08:00 - 17:00 WIB' }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <form class="contact-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Nama Lengkap" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" placeholder="Email" required>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" class="form-control" placeholder="Subjek" required>
+                            </div>
+                            <div class="col-12">
+                                <textarea class="form-control" rows="5" placeholder="Pesan Anda" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary-red">Kirim Pesan</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
+
+@push('styles')
+<style>
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+}
+
+.btn-primary-custom {
+    background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(214, 40, 40, 0.3);
+    color: white;
+}
+
+.floating {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+.feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: white;
+    font-size: 2rem;
+}
+
+.product-category {
+    background: var(--primary-red);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.product-title {
+    color: var(--dark-gray);
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.product-price {
+    color: var(--primary-red);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.news-date {
+    color: var(--primary-red);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.news-title {
+    color: var(--dark-gray);
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-caption {
+    transform: translateY(0);
+}
+
+.gallery-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--primary-red);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.contact-info {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.contact-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.contact-form .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.contact-form .form-control:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 0.2rem rgba(214, 40, 40, 0.25);
+}
+</style>
+@endpush

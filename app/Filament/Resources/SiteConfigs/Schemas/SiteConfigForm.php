@@ -113,9 +113,16 @@ class SiteConfigForm
                     ->visible(fn (callable $get) => in_array($get('type'), ['file', 'image']))
                     ->disk('public')
                     ->directory('site-configs')
-                    ->acceptedFileTypes(fn (callable $get) =>
-                        $get('type') === 'image' ? ['image/jpeg', 'image/png', 'image/gif', 'image/webp'] : []
-                    )
+                    ->acceptedFileTypes(function (callable $get) {
+                        $type = $get('type');
+                        return match($type) {
+                            'image' => ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg'],
+                            'file' => ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'application/zip', 'application/x-zip-compressed'],
+                            default => [],
+                        };
+                    })
+                    ->key(fn (callable $get) => 'file-upload-' . $get('type'))
+                    ->reactive()
                     ->maxSize(5120), // 5MB
 
                 KeyValue::make('value_json')

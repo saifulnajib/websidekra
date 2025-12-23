@@ -49,18 +49,21 @@ class SiteConfigResource extends Resource
                     break;
                 case 'file':
                 case 'image':
-                    $data['value_file'] = $value;
-                    break;
-                case 'json':
-                    if (is_string($value)) {
-                        $decoded = json_decode($value, true);
-                        $data['value_json'] = $decoded ?? [];
-                    } elseif (is_array($value)) {
-                        $data['value_json'] = $value;
+                    // Jika user upload file baru
+                    if (!empty($data['value_file'])) {
+                        $fileValue = $data['value_file'];
+
+                        if (is_array($fileValue)) {
+                            $data['value'] = $fileValue[0] ?? '';
+                        } else {
+                            $data['value'] = (string) $fileValue;
+                        }
                     } else {
-                        $data['value_json'] = [];
+                        // 🔑 PERTAHANKAN nilai lama
+                        unset($data['value']);
                     }
                     break;
+
                 default:
                     // For text, email, url, number - keep in main 'value' field
                     break;
@@ -84,7 +87,12 @@ class SiteConfigResource extends Resource
                     break;
                 case 'file':
                 case 'image':
-                    $data['value'] = $data['value_file'] ?? '';
+                    $fileValue = $data['value_file'] ?? null;
+                    if (is_array($fileValue)) {
+                        $data['value'] = $fileValue[0] ?? ''; // Take first file if array
+                    } else {
+                        $data['value'] = (string) $fileValue;
+                    }
                     break;
                 case 'json':
                     $jsonData = $data['value_json'] ?? [];

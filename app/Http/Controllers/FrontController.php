@@ -9,8 +9,22 @@ class FrontController extends Controller
 {
     public function index()
     {
-        $data = SiteConfig::all()->pluck('value', 'key')->toArray();
-        // dd($data);
-        return view('index',$data);
+        $configs = SiteConfig::all();
+        $data = [];
+
+        foreach ($configs as $config) {
+            $value = $config->value;
+
+            // Handle file and image URLs
+            if (in_array($config->type, ['file', 'image']) && $value) {
+                $value = asset('storage/' . $value);
+            } else {
+                $value = SiteConfig::castValue($value, $config->type);
+            }
+
+            $data[$config->key] = $value;
+        }
+
+        return view('index', $data);
     }
 }

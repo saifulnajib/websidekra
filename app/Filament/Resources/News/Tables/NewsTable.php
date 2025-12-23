@@ -33,7 +33,10 @@ class NewsTable
                 TextColumn::make('published_at')
                     ->dateTime()
                     ->sortable(),
-                ImageColumn::make('featured_image_path'),
+                ImageColumn::make('featured_image_path')
+                    ->disk('public')
+                    ->height(40)
+                    ->width(60),
                 TextColumn::make('views')
                     ->numeric()
                     ->sortable(),
