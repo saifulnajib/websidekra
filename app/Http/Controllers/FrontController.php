@@ -19,18 +19,13 @@ class FrontController extends Controller
         $data['umkmCount'] = \App\Models\UmkmOwner::count();
         $data['productCount'] = \App\Models\Product::count();
 
-        foreach ($configs as $config) {
-            $value = $config->value;
+        // Fetch Latest Products
+        $data['latestProducts'] = \App\Models\Product::with('umkmCategory', 'umkmOwner')
+            ->latest()
+            ->take(4)
+            ->get();
 
-            // Handle file and image URLs
-            if (in_array($config->type, ['file', 'image']) && $value) {
-                $value = asset('storage/' . $value);
-            } else {
-                $value = SiteConfig::castValue($value, $config->type);
-            }
-
-            $data[$config->key] = $value;
-        }
+        // SiteConfigs are now handled in AppServiceProvider via View::share
 
         return view('index', $data);
     }

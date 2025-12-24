@@ -20,99 +20,50 @@
     </div>
 </section>
 
-
-
-<!-- Statistics Section -->
-<section class="py-4 bg-white shadow-sm border-bottom">
-    <div class="container">
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-5 col-lg-4">
-                <div class="d-flex align-items-center justify-content-center p-3 rounded-3 border" style="background-color: #f8f9fa;">
-                    <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: rgba(220, 53, 69, 0.1); color: var(--primary-red);">
-                        <i class="fas fa-store fa-lg"></i>
-                    </div>
-                    <div>
-                        <h3 class="fw-bold mb-0 text-dark">{{ $umkmCount ?? 0 }}</h3>
-                        <p class="mb-0 text-muted small text-uppercase fw-semibold">UMKM Terdaftar</p>
+<!-- About Section -->
+    <section class="py-5 my-5" id="about">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">{{$about_title}}</h2>
+                <p class="lead">{{ $about_subtitle }}</p>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Tentang SIDEKRA" class="img-fluid rounded">
+                </div>
+                <div class="col-lg-6">
+                    <h3>Misi Kami</h3>
+                    <p class="mb-4">{{ $site_description ?? 'SIDEKRA adalah platform digital yang didedikasikan untuk mendukung pengembangan Usaha Mikro Kecil Menengah (UMKM) dan kerajinan daerah di Indonesia.' }}</p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Mendorong ekonomi kreatif</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Melestarikan budaya lokal</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Meningkatkan kualitas produk</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Memperluas pasar</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 col-lg-4">
-                <div class="d-flex align-items-center justify-content-center p-3 rounded-3 border" style="background-color: #f8f9fa;">
-                    <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: rgba(220, 53, 69, 0.1); color: var(--primary-red);">
-                        <i class="fas fa-box-open fa-lg"></i>
-                    </div>
-                    <div>
-                        <h3 class="fw-bold mb-0 text-dark">{{ $productCount ?? 0 }}</h3>
-                        <p class="mb-0 text-muted small text-uppercase fw-semibold">Produk Tersedia</p>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
-</section>
-
-<!-- Features Section -->
-<section class="py-5 my-5" id="features">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="section-title">{{ $features_title ?? 'Apa yang Kami Tawarkan' }}</h2>
-            <p class="lead">SIDEKRA memberikan solusi komprehensif untuk pengembangan industri kerajinan daerah</p>
-        </div>
-        <div class="row g-4">
-            @if(isset($features) && is_array($features))
-                @foreach($features as $feature)
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-{{ $feature['icon'] ?? 'star' }}"></i>
-                        </div>
-                        <h3>{{ $feature['title'] ?? 'Fitur' }}</h3>
-                        <p>{{ $feature['description'] ?? 'Deskripsi fitur' }}</p>
-                    </div>
-                </div>
-                @endforeach
-            @else
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-store"></i>
-                        </div>
-                        <h3>Pasar Digital</h3>
-                        <p>Platform e-commerce khusus untuk produk kerajinan daerah dengan jangkauan nasional dan internasional.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3>Analisis Data</h3>
-                        <p>Sistem pemantauan real-time untuk pemerintah daerah dalam melacak perkembangan industri kerajinan.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h3>Pelatihan</h3>
-                        <p>Program pelatihan untuk meningkatkan keterampilan pengrajin dan pengetahuan pemasaran digital.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-handshake"></i>
-                        </div>
-                        <h3>Jaringan</h3>
-                        <p>Membangun jaringan antara pengrajin, pembeli, dan pemangku kepentingan terkait.</p>
-                    </div>
-                </div>
-            @endif
-        </div>
-    </div>
-</section>
+    </section>
 
 <!-- Products Section -->
 <section class="py-5 bg-light" id="products">
@@ -122,65 +73,38 @@
             <p class="lead">Temukan berbagai kerajinan tangan berkualitas dari pengrajin lokal</p>
         </div>
         <div class="row g-4">
+            @forelse($latestProducts as $product)
             <div class="col-md-6 col-lg-3">
-                <div class="card product-card">
-                    <img src="https://images.unsplash.com/photo-1595703013566-db085ae93c04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1588&q=80" class="card-img-top product-img" alt="Tenun Tradisional">
+                <div class="card product-card h-100 border-0 shadow-sm hover-lift">
+                    <img src="{{ Str::startsWith($product->file, 'http') ? $product->file : asset('storage/' . $product->file) }}" 
+                         class="card-img-top product-img" 
+                         alt="{{ $product->name }}"
+                         style="height: 250px; object-fit: cover;">
                     <div class="card-body">
-                        <span class="product-category">Tekstil</span>
-                        <h5 class="product-title">Kain Tenun Ikat Flores</h5>
-                        <p class="card-text">Kain tenun tradisional dengan motif khas Flores, dibuat secara manual oleh pengrajin berpengalaman.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="product-price">Rp 450.000</span>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
+                        @if($product->umkmCategory)
+                        <span class="product-category">{{ $product->umkmCategory->name }}</span>
+                        @endif
+                        <h5 class="product-title mt-2">
+                             <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-dark stretched-link">
+                                {{ $product->name }}
+                             </a>
+                        </h5>
+                        <p class="card-text text-muted small text-truncate">{{ $product->description }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="product-price">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
+                            <span class="btn btn-sm btn-outline-secondary">Detail</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card product-card">
-                    <img src="https://plus.unsplash.com/premium_photo-1675719070429-bb6b722b7593?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=774" class="card-img-top product-img" alt="Keramik">
-                    <div class="card-body">
-                        <span class="product-category">Keramik</span>
-                        <h5 class="product-title">Gerabah Kasongan</h5>
-                        <p class="card-text">Gerabah tradisional dari Kasongan dengan desain unik dan kualitas tinggi, cocok untuk dekorasi.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="product-price">Rp 325.000</span>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
-                        </div>
-                    </div>
-                </div>
+            @empty
+            <div class="col-12 text-center">
+                <p class="text-muted">Belum ada produk yang ditampilkan.</p>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card product-card">
-                    <img src="https://images.unsplash.com/photo-1668008555730-c390ae0b0247?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870" class="card-img-top product-img" alt="Anyaman">
-                    <div class="card-body">
-                        <span class="product-category">Anyaman</span>
-                        <h5 class="product-title">Tas Anyaman Rotan</h5>
-                        <p class="card-text">Tas anyaman rotan dengan desain modern dan kuat, hasil karya pengrajin Tasikmalaya.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="product-price">Rp 275.000</span>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card product-card">
-                    <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1075&q=80" class="card-img-top product-img" alt="Perak">
-                    <div class="card-body">
-                        <span class="product-category">Perhiasan</span>
-                        <h5 class="product-title">Perak Kotagede</h5>
-                        <p class="card-text">Perhiasan perak dengan motif tradisional Yogyakarta, dibuat oleh pengrajin Kotagede berpengalaman.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="product-price">Rp 650.000</span>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Detail</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforelse
         </div>
         <div class="text-center mt-5">
-            <a href="#" class="btn btn-primary-custom">Lihat Semua Produk</a>
+            <a href="{{ route('products.index') }}" class="btn btn-primary-custom">Lihat Semua Produk</a>
         </div>
     </div>
 </section>
@@ -336,50 +260,6 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="py-5 my-5" id="about">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Tentang SIDEKRA</h2>
-                <p class="lead">Mengenal lebih dekat dengan misi dan visi kami</p>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Tentang SIDEKRA" class="img-fluid rounded">
-                </div>
-                <div class="col-lg-6">
-                    <h3>Misi Kami</h3>
-                    <p class="mb-4">{{ $site_description ?? 'SIDEKRA adalah platform digital yang didedikasikan untuk mendukung pengembangan Usaha Mikro Kecil Menengah (UMKM) dan kerajinan daerah di Indonesia.' }}</p>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-2"></i>
-                                <span>Mendorong ekonomi kreatif</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-2"></i>
-                                <span>Melestarikan budaya lokal</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-2"></i>
-                                <span>Meningkatkan kualitas produk</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-check-circle text-success me-2"></i>
-                                <span>Memperluas pasar</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Contact Section -->
     <section class="py-5 bg-light" id="contact">

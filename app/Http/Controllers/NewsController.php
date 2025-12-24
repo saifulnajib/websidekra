@@ -7,11 +7,21 @@ use App\Models\News;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::where('is_published', true)
-            ->orderBy('published_at', 'desc')
-            ->paginate(12);
+        $query = News::where('is_published', true);
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('content', 'like', "%{$search}%");
+            });
+        }
+
+        $news = $query->orderBy('published_at', 'desc')
+            ->paginate(12)
+            ->withQueryString();
 
         return view('news.index', compact('news'));
     }
