@@ -20,6 +20,38 @@
     </div>
 </section>
 
+
+
+<!-- Statistics Section -->
+<section class="py-4 bg-white shadow-sm border-bottom">
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-5 col-lg-4">
+                <div class="d-flex align-items-center justify-content-center p-3 rounded-3 border" style="background-color: #f8f9fa;">
+                    <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: rgba(220, 53, 69, 0.1); color: var(--primary-red);">
+                        <i class="fas fa-store fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0 text-dark">{{ $umkmCount ?? 0 }}</h3>
+                        <p class="mb-0 text-muted small text-uppercase fw-semibold">UMKM Terdaftar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-lg-4">
+                <div class="d-flex align-items-center justify-content-center p-3 rounded-3 border" style="background-color: #f8f9fa;">
+                    <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: rgba(220, 53, 69, 0.1); color: var(--primary-red);">
+                        <i class="fas fa-box-open fa-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0 text-dark">{{ $productCount ?? 0 }}</h3>
+                        <p class="mb-0 text-muted small text-uppercase fw-semibold">Produk Tersedia</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Features Section -->
 <section class="py-5 my-5" id="features">
     <div class="container">
@@ -209,39 +241,19 @@
                 <p class="lead">Update terbaru seputar dunia kerajinan dan ekonomi kreatif</p>
             </div>
             <div class="row g-4">
-                <div class="col-md-6 col-lg-4">
-                    <div class="card news-card" style="border-radius: 25px 0 25px 0;">
-                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top news-img" style="border-radius: 25px 0 25px 0;" alt="Pameran Kerajinan">
-                        <div class="card-body">
-                            <span class="news-date">15 Juni 2023</span>
-                            <h5 class="news-title">Pameran Kerajinan Nasional 2023</h5>
-                            <p class="card-text">SIDEKRA berpartisipasi dalam pameran kerajinan nasional yang diadakan di Jakarta Convention Center...</p>
-                            <a href="{{ route('news.index') }}" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
+                    @foreach($latestNews as $news_item)
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card news-card" style="border-radius: 25px 0 25px 0;">
+                            <img src="{{ asset('storage/' . $news_item->featured_image_path)  ?? 'https://via.placeholder.com/400x200' }}" class="card-img-top news-img" style="border-radius: 25px 0 25px 0;" alt="{{ $news_item['title'] ?? 'Berita' }}">
+                            <div class="card-body">
+                                <span class="news-date">{{ $news_item['date'] ?? 'Tanggal' }}</span>
+                                <h5 class="news-title">{{ $news_item['title'] ?? 'Judul Berita' }}</h5>
+                                <p class="card-text">{{ $news_item['excerpt'] ?? 'Cuplikan berita...' }}</p>
+                                <a href="{{ route('news.show', $news_item['slug']) }}" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="card news-card" style="border-radius: 25px 0 25px 0;">
-                        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" class="card-img-top news-img" style="border-radius: 25px 0 25px 0;" alt="Pelatihan Digital">
-                        <div class="card-body">
-                            <span class="news-date">2 Juni 2023</span>
-                            <h5 class="news-title">Pelatihan Pemasaran Digital untuk Pengrajin</h5>
-                            <p class="card-text">SIDEKRA menyelenggarakan pelatihan pemasaran digital gratis untuk 100 pengrajin di Jawa Tengah...</p>
-                            <a href="{{ route('news.index') }}" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="card news-card" style="border-radius: 25px 0 25px 0;">
-                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top news-img" style="border-radius: 25px 0 25px 0;" alt="Ekspor Kerajinan">
-                        <div class="card-body">
-                            <span class="news-date">20 Mei 2023</span>
-                            <h5 class="news-title">Kerajinan Indonesia Tembus Pasar Eropa</h5>
-                            <p class="card-text">Produk kerajinan dari pengrajin SIDEKRA berhasil menembus pasar Eropa dengan nilai ekspor mencapai...</p>
-                            <a href="{{ route('news.index') }}" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
+                    @endforeach
             </div>
             <div class="text-center mt-5">
                 <a href="{{ route('news.index') }}" class="btn btn-primary-custom">Lihat Semua Berita</a>

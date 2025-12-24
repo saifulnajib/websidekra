@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SiteConfig;
+use App\Models\News;
 
 class FrontController extends Controller
 {
@@ -11,6 +12,12 @@ class FrontController extends Controller
     {
         $configs = SiteConfig::all();
         $data = [];
+
+        $data['latestNews'] = News::orderBy('created_at', 'desc')->take(3)->get();
+
+        // Fetch Statistics
+        $data['umkmCount'] = \App\Models\UmkmOwner::count();
+        $data['productCount'] = \App\Models\Product::count();
 
         foreach ($configs as $config) {
             $value = $config->value;

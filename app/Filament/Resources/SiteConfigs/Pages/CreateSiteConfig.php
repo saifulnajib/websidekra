@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateSiteConfig extends CreateRecord
 {
     protected static string $resource = SiteConfigResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
