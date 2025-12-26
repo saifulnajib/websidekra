@@ -9,6 +9,11 @@ class CreateSiteConfig extends CreateRecord
 {
     protected static string $resource = SiteConfigResource::class;
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        return static::getResource()::mutateFormDataBeforeSave($data);
+    }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');

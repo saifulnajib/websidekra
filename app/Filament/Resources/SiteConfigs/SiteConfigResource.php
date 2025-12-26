@@ -49,19 +49,8 @@ class SiteConfigResource extends Resource
                     break;
                 case 'file':
                 case 'image':
-                    // Jika user upload file baru
-                    if (!empty($data['value_file'])) {
-                        $fileValue = $data['value_file'];
-
-                        if (is_array($fileValue)) {
-                            $data['value'] = $fileValue[0] ?? '';
-                        } else {
-                            $data['value'] = (string) $fileValue;
-                        }
-                    } else {
-                        // 🔑 PERTAHANKAN nilai lama
-                        unset($data['value']);
-                    }
+                    // Populate the file upload field with the stored value
+                    $data['value_file'] = $value;
                     break;
 
                 default:

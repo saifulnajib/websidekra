@@ -28,6 +28,11 @@ class EditSiteConfig extends EditRecord
         $this->form->fill($data);
     }
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        return static::getResource()::mutateFormDataBeforeSave($data);
+    }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
