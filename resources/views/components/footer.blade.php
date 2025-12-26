@@ -42,15 +42,15 @@
                 <h6 class="footer-heading">Hubungi Kami</h6>
                 <div class="mb-2">
                     <i class="fas fa-map-marker-alt me-2"></i>
-                    {{$contact_address}}
+                    {{$contact_address ?? 'Alamat belum diatur'}}
                 </div>
                 <div class="mb-2">
                     <i class="fas fa-phone me-2"></i>
-                    {{$contact_phone}}
+                    {{$contact_phone ?? 'Nomor belum diatur'}}
                 </div>
                 <div class="mb-2">
                     <i class="fas fa-envelope me-2"></i>
-                    {{$contact_email}}
+                    {{$contact_email ?? 'Email belum diatur'}}
                 </div>
             </div>
         </div>

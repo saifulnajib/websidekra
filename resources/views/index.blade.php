@@ -24,8 +24,8 @@
     <section class="py-5 my-5" id="about">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title">{{$about_title}}</h2>
-                <p class="lead">{{ $about_subtitle }}</p>
+                <h2 class="section-title">{{$about_title ?? 'Tentang Kami'}}</h2>
+                <p class="lead">{{ $about_subtitle ?? 'Mendukung UMKM Lokal Go Digital' }}</p>
             </div>
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
