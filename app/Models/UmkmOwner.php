@@ -58,4 +58,12 @@ class UmkmOwner extends Model
     {
         return $this->hasMany(Product::class, 'umkm_owner_id');
     }
+
+    /**
+     * Get the artisans for the UMKM owner.
+     */
+    public function artisans()
+    {
+        return $this->hasMany(Artisan::class, 'umkm_owner_id');
+    }
 }

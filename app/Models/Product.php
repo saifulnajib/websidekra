@@ -17,6 +17,7 @@ class Product extends Model
         'file',
         'umkm_owner_id',
         'umkm_category_id',
+        'artisan_id',
     ];
 
     protected $casts = [
@@ -31,5 +32,10 @@ class Product extends Model
     public function umkmCategory(): BelongsTo
     {
         return $this->belongsTo(UmkmCategory::class);
+    }
+
+    public function artisan(): BelongsTo
+    {
+        return $this->belongsTo(Artisan::class);
     }
 }

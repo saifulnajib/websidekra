@@ -29,7 +29,17 @@
             </div>
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Tentang SIDEKRA" class="img-fluid rounded">
+                    @if(!empty($about_image))
+                        <img src="{{ Str::startsWith($about_image, 'http') ? $about_image : asset('storage/' . $about_image) }}" alt="Tentang SIDEKRA" class="img-fluid rounded-4 shadow">
+                    @else
+                        <div class="about-placeholder-img rounded-4 shadow d-flex align-items-center justify-content-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-store fa-5x mb-3 opacity-75"></i>
+                                <h4 class="fw-bold">{{ $site_name ?? 'SIDEKRA' }}</h4>
+                                <p class="opacity-75">Platform Digital UMKM</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 <div class="col-lg-6">
                     <h3>Misi Kami</h3>
@@ -57,6 +67,20 @@
                             <div class="d-flex align-items-center">
                                 <i class="fas fa-check-circle text-success me-2"></i>
                                 <span>Memperluas pasar</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-4">
+                        <div class="col-6">
+                            <div class="stat-mini-card">
+                                <div class="stat-mini-number">{{ $umkmCount ?? 0 }}</div>
+                                <div class="stat-mini-label">UMKM Terdaftar</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-mini-card">
+                                <div class="stat-mini-number">{{ $productCount ?? 0 }}</div>
+                                <div class="stat-mini-label">Produk Tersedia</div>
                             </div>
                         </div>
                     </div>
@@ -109,53 +133,99 @@
     </div>
 </section>
 
-<!-- Artisans Section -->
-<section class="py-5 my-5" id="artisans">
+<!-- UMKM Section -->
+<section class="py-5 my-5" id="umkm">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="section-title">Pengrajin Terbaik Kami</h2>
-            <p class="lead">Bertemu dengan para pengrajin berbakat di balik produk-produk berkualitas</p>
+            <h2 class="section-title">UMKM Unggulan</h2>
+            <p class="lead">Kenali pelaku UMKM terdaftar di platform kami</p>
         </div>
         <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="artisan-card">
-                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Pengrajin Tenun" class="artisan-img">
-                        <h4 class="artisan-name">Siti Aminah</h4>
-                        <p class="artisan-location">Flores, NTT</p>
-                        <p class="text-muted">Spesialis tenun ikat tradisional dengan pengalaman 15 tahun</p>
-                        <a href="#" class="btn btn-sm btn-outline-primary">Lihat Profil</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="artisan-card">
-                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Pengrajin Gerabah" class="artisan-img">
-                        <h4 class="artisan-name">Budi Santoso</h4>
-                        <p class="artisan-location">Kasongan, Yogyakarta</p>
-                        <p class="text-muted">Ahli gerabah tradisional dengan teknik turun temurun</p>
-                        <a href="#" class="btn btn-sm btn-outline-primary">Lihat Profil</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="artisan-card">
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Pengrajin Anyaman" class="artisan-img">
-                        <h4 class="artisan-name">Rina Wijaya</h4>
-                        <p class="artisan-location">Tasikmalaya, Jawa Barat</p>
-                        <p class="text-muted">Spesialis anyaman rotan dengan desain modern</p>
-                        <a href="#" class="btn btn-sm btn-outline-primary">Lihat Profil</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="artisan-card">
-                        <img src="https://randomuser.me/api/portraits/men/72.jpg" alt="Pengrajin Perak" class="artisan-img">
-                        <h4 class="artisan-name">Agus Suparman</h4>
-                        <p class="artisan-location">Kotagede, Yogyakarta</p>
-                        <p class="text-muted">Pengrajin perak dengan motif tradisional Jawa</p>
-                        <a href="#" class="btn btn-sm btn-outline-primary">Lihat Profil</a>
-                    </div>
+            @forelse($latestUmkmOwners as $owner)
+            <div class="col-md-6 col-lg-3">
+                <div class="artisan-card">
+                    @if($owner->logo_path)
+                        <img src="{{ Str::startsWith($owner->logo_path, 'http') ? $owner->logo_path : asset('storage/' . $owner->logo_path) }}"
+                             alt="{{ $owner->business_name }}"
+                             class="artisan-img">
+                    @else
+                        <div class="artisan-img-placeholder d-flex align-items-center justify-content-center">
+                            <i class="fas fa-store fa-3x text-white opacity-75"></i>
+                        </div>
+                    @endif
+                    <h4 class="artisan-name">{{ $owner->business_name }}</h4>
+                    @if($owner->address)
+                    <p class="artisan-location">{{ Str::limit($owner->address, 40) }}</p>
+                    @endif
+                    @if($owner->category)
+                    <p class="text-muted small">Kategori: {{ $owner->category->name }}</p>
+                    @endif
+                    @if($owner->description)
+                    <p class="text-muted small">{{ Str::limit($owner->description, 80) }}</p>
+                    @endif
+                    <a href="{{ route('products.index', ['owner' => $owner->business_slug]) }}" class="btn btn-sm btn-outline-primary">Lihat Produk</a>
                 </div>
             </div>
+            @empty
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-store fa-3x text-muted mb-3"></i>
+                <p class="text-muted">Belum ada UMKM yang terdaftar dan aktif.</p>
+            </div>
+            @endforelse
         </div>
-    </section>
+        @if($latestUmkmOwners->count() > 0)
+        <div class="text-center mt-5">
+            <a href="{{ route('products.index') }}" class="btn btn-primary-custom">Jelajahi Semua UMKM</a>
+        </div>
+        @endif
+    </div>
+</section>
+
+<!-- Pengrajin Section -->
+<section class="py-5" id="pengrajin">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Pengrajin Terbaik</h2>
+            <p class="lead">Profil perorangan maupun kelompok ahli pembuat karya kriya</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            @forelse($artisans as $artisan)
+            <div class="col-md-6 col-lg-3">
+                <div class="artisan-card text-center p-4 h-100" style="background: white; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                    @if($artisan->photo_path)
+                        <img src="{{ Str::startsWith($artisan->photo_path, 'http') ? $artisan->photo_path : asset('storage/' . $artisan->photo_path) }}"
+                             alt="{{ $artisan->name }}"
+                             style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px auto; border: 4px solid var(--primary-red); box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    @else
+                        <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-red), #ff6b6b); margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; border: 4px solid #fff; box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);">
+                            <i class="fas fa-user fa-3x text-white"></i>
+                        </div>
+                    @endif
+                    <h5 class="fw-bold text-dark mb-1">{{ $artisan->name }}</h5>
+                    <span class="badge {{ $artisan->type == 'kelompok' ? 'bg-success' : 'bg-info' }} mb-2">{{ ucfirst($artisan->type) }}</span>
+                    @if($artisan->specialty)
+                    <p class="text-muted small mb-2"><i class="fas fa-paint-brush me-1 text-danger"></i> {{ $artisan->specialty }}</p>
+                    @endif
+                    @if($artisan->experience_years)
+                    <p class="text-muted small mb-2"><i class="fas fa-history me-1 text-danger"></i> {{ $artisan->experience_years }} Thn Pengalaman</p>
+                    @endif
+                    @if($artisan->umkmOwner)
+                    <p class="text-muted small mb-3"><i class="fas fa-store me-1 text-danger"></i> <strong>{{ $artisan->umkmOwner->business_name }}</strong></p>
+                    @endif
+                    
+                    <a href="{{ route('artisans.show', $artisan->id) }}" class="btn btn-sm btn-outline-danger rounded-pill px-4">Lihat Detail</a>
+                </div>
+            </div>
+            @empty
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                <p class="text-muted">Belum ada data pengrajin yang ditampilkan.</p>
+            </div>
+            @endforelse
+        </div>
+    </div>
+</section>
+
 
     <!-- News Section -->
     <section class="py-5 bg-light" id="news">
@@ -193,16 +263,19 @@
                 <p class="lead">Lihat momen-momen inspiratif dari dunia kerajinan tangan</p>
             </div>
             <div class="row">
-                <div class="col-md-6 col-lg-4">
-                    <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" class="gallery-img" alt="Proses Pembuatan">
-                        <div class="gallery-caption">
-                            <h5>Proses Pembuatan Kerajinan</h5>
-                            <p>Pengrajin sedang membuat kerajinan tangan tradisional</p>
+                @foreach($galleryItems as $val)
+                    <div class="col-md-6 col-lg-4">
+                        <div class="gallery-item">
+                            <img src="{{asset('storage/' . $val['galleryItems'][0]['path'])}}" class="gallery-img" alt="{{$val['galleryItems'][0]['caption']}}">
+                            <div class="gallery-caption">
+                                <h5>{{$val['title']}}</h5>
+                                <p>{{$val['description']}}</p>
+                                <small class="text-secondary">oleh {{$val['created_at']}}</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
+                @endforeach
+                <!-- <div class="col-md-6 col-lg-4">
                     <div class="gallery-item">
                         <div class="gallery-video">
                             <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -213,46 +286,7 @@
                             <p>Video tutorial membuat tenun ikat tradisional</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="gallery-item">
-                        <img src="https://plus.unsplash.com/premium_photo-1758653024876-bc3f2b4b9601?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2098" class="gallery-img" alt="Pameran Produk">
-                        <div class="gallery-caption">
-                            <h5>Pameran Produk Kerajinan</h5>
-                            <p>Stand pameran produk kerajinan di event nasional</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" class="gallery-img" alt="Pelatihan">
-                        <div class="gallery-caption">
-                            <h5>Sesi Pelatihan</h5>
-                            <p>Pengrajin sedang mengikuti pelatihan keterampilan</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="gallery-item">
-                        <div class="gallery-video">
-                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <span class="gallery-badge">Video</span>
-                        <div class="gallery-caption">
-                            <h5>Wawancara Pengrajin</h5>
-                            <p>Kisah inspiratif dari pengrajin sukses</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1708317033463-e1350cff1392?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2071" class="gallery-img" alt="Produk Jadi">
-                        <div class="gallery-caption">
-                            <h5>Produk Jadi</h5>
-                            <p>Koleksi produk kerajinan siap dipasarkan</p>
-                        </div>
-                    </div>
-                </div>
+                </div> -->
             </div>
             <div class="text-center mt-5">
                 <a href="#" class="btn btn-primary-custom">Lihat Galeri Lengkap</a>
@@ -476,6 +510,44 @@
 .contact-form .form-control:focus {
     border-color: var(--primary-red);
     box-shadow: 0 0 0 0.2rem rgba(214, 40, 40, 0.25);
+}
+
+/* About Section Placeholder */
+.about-placeholder-img {
+    height: 350px;
+    background: linear-gradient(135deg, var(--primary-red, #d62828), var(--dark-red, #a01010));
+    border-radius: 1rem;
+}
+
+/* Artisan/UMKM Card - Placeholder when no logo */
+.artisan-img-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-red, #d62828), var(--dark-red, #a01010));
+    margin: 0 auto 1rem;
+}
+
+/* Stats mini cards in About section */
+.stat-mini-card {
+    background: linear-gradient(135deg, var(--primary-red, #d62828), var(--dark-red, #a01010));
+    color: white;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(214, 40, 40, 0.25);
+}
+
+.stat-mini-number {
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.stat-mini-label {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin-top: 0.25rem;
 }
 </style>
 @endpush

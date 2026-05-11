@@ -22,7 +22,7 @@
                         href="{{ route('products.index') }}">Produk</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $active === 'artisans' ? 'active' : '' }}" href="#artisans">Pengrajin</a>
+                    <a class="nav-link {{ $active === 'artisans' ? 'active' : '' }}" href="{{ url('/#pengrajin') }}">Pengrajin</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ $active === 'news' ? 'active' : '' }}"
@@ -35,7 +35,10 @@
                     <a class="nav-link {{ $active === 'gallery' ? 'active' : '' }}" href="#gallery">Galeri</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $active === 'contact' ? 'active' : '' }}" href="#contact">Kontak</a>
+                    <a class="nav-link {{ $active === 'contact' ? 'active' : '' }}" href="/#contact">Kontak</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ $active === 'guide' ? 'active' : '' }}" href="{{ route('guide') }}"><i class="fas fa-book me-1"></i>Panduan</a>
                 </li>
             </ul>
         </div>

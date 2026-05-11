@@ -40,6 +40,11 @@ class ProductForm
                 Select::make('umkm_category_id')
                     ->relationship('umkmCategory', 'name')
                     ->disabled(),
+                Select::make('artisan_id')
+                    ->label('Pengrajin (Opsional)')
+                    ->relationship('artisan', 'name')
+                    ->searchable()
+                    ->preload(),
             ]);
     }
 }
