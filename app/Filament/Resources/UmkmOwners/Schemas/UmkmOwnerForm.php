@@ -6,7 +6,6 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
-use Illuminate\Support\Str;
 use Filament\Schemas\Schema;
 
 class UmkmOwnerForm
@@ -25,14 +24,7 @@ class UmkmOwnerForm
                 Textarea::make('address')
                     ->columnSpanFull(),
                 TextInput::make('business_name')
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function (?string $state, callable $set): void {
-                        $set('business_slug', $state ? Str::slug($state) : null);
-                    }),
-                TextInput::make('business_slug')
-                    ->required()
-                    ->hint('Auto-generated from business name; you can edit if needed.'),
+                    ->required(),
                 Select::make('category_id')
                     ->label('Category')
                     ->relationship('category', 'name')

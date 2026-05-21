@@ -10,7 +10,6 @@
                 <p class="hero-subtitle">{{ $hero_subtitle ?? 'SIDEKRA menghubungkan pengrajin lokal dengan pasar global, mendorong pertumbuhan ekonomi kreatif berbasis kearifan lokal.' }}</p>
                 <div class="d-flex flex-wrap gap-3">
                     <a href="#products" class="btn btn-primary-custom">{{ $hero_button_text ?? 'Jelajahi Produk' }}</a>
-                    <a href="#register" class="btn btn-outline-custom">Daftar Sebagai Pengrajin</a>
                 </div>
             </div>
             <div class="col-lg-6 d-none d-lg-block">

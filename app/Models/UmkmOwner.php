@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class UmkmOwner extends Model
 {
@@ -65,5 +66,35 @@ class UmkmOwner extends Model
     public function artisans()
     {
         return $this->hasMany(Artisan::class, 'umkm_owner_id');
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (UmkmOwner $model) {
+            if (empty($model->business_slug) && filled($model->business_name)) {
+                $model->business_slug = static::generateUniqueSlug($model->business_name);
+            }
+        });
+
+        static::updating(function (UmkmOwner $model) {
+            if (empty($model->business_slug) && filled($model->business_name)) {
+                $model->business_slug = static::generateUniqueSlug($model->business_name, $model->id);
+            }
+        });
+    }
+
+    protected static function generateUniqueSlug(string $name, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($name);
+        $slug = $base;
+        $i = 1;
+
+        while (static::where('business_slug', $slug)
+            ->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))
+            ->exists()) {
+            $slug = $base . '-' . $i++;
+        }
+
+        return $slug;
     }
 }

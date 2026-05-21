@@ -5,7 +5,6 @@ namespace App\Filament\Resources\UmkmCategories\Schemas;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
-use Illuminate\Support\Str;
 use Filament\Schemas\Schema;
 
 class UmkmCategoryForm
@@ -15,14 +14,7 @@ class UmkmCategoryForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function (?string $state, callable $set): void {
-                        $set('slug', $state ? Str::slug($state) : null);
-                    }),
-                TextInput::make('slug')
-                    ->required()
-                    ->hint('Auto-generated from name; you can edit if needed.'),
+                    ->required(),
                 Textarea::make('description')
                     ->columnSpanFull(),
                 Toggle::make('is_active')
