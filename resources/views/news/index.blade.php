@@ -45,7 +45,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <small class="text-muted">
                                     <i
-                                        class="fas fa-calendar me-1"></i>{{ $item->published_at ? $item->published_at->format('d M Y') : 'Draft' }}
+                                        class="fas fa-calendar me-1"></i>{{ $item->published_at ? $item->published_at->translatedFormat('d F Y') : 'Draft' }}
                                 </small>
                                 <small class="text-muted">
                                     <i class="fas fa-eye me-1"></i>{{ $item->views }} views

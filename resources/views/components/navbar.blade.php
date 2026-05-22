@@ -5,8 +5,7 @@
         <a class="navbar-brand" href="{{ route('home') }}">
             <img src="https://www.tanjungpinangkota.go.id/images/lambang_235.png" alt="SIDEKRA Logo" height="40">
             <img src="https://dekranasda.kepriprov.go.id/resources/config/icon-dkn.png" alt="SIDEKRA Logo" height="40"
-                class="me-0">
-            <i class="fas fa-hands-helping me-2"></i>SIDEKRA
+                class="me-0">SIDEKRA
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +35,7 @@
                     <a class="nav-link {{ $active === 'gallery' ? 'active' : '' }}" href="#gallery">Galeri</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $active === 'contact' ? 'active' : '' }}" href="/#contact">Kontak</a>
+                    <a class="nav-link {{ $active === 'feedback' ? 'active' : '' }}" href="/#feedback">Kritik & Saran</a>
                 </li>
             </ul>
         </div>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\FeedbackController;
 
 // Route::get('/', function () {
 //     return view('index');
@@ -19,3 +20,5 @@ Route::controller(\App\Http\Controllers\ProductController::class)->group(functio
 });
 
 Route::get('/pengrajin/{artisan}', [FrontController::class, 'artisanDetail'])->name('artisans.show');
+
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');

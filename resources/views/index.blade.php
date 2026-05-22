@@ -239,7 +239,7 @@
                         <div class="card news-card" style="border-radius: 25px 0 25px 0;">
                             <img src="{{ asset('storage/' . $news_item->featured_image_path)  ?? 'https://via.placeholder.com/400x200' }}" class="card-img-top news-img" style="border-radius: 25px 0 25px 0;" alt="{{ $news_item['title'] ?? 'Berita' }}">
                             <div class="card-body">
-                                <span class="news-date">{{ $news_item['date'] ?? 'Tanggal' }}</span>
+                                <span class="news-date">{{ $news_item['published_at']->translatedFormat('d F Y') ?? 'Tanggal' }}</span>
                                 <h5 class="news-title">{{ $news_item['title'] ?? 'Judul Berita' }}</h5>
                                 <p class="card-text">{{ $news_item['excerpt'] ?? 'Cuplikan berita...' }}</p>
                                 <a href="{{ route('news.show', $news_item['slug']) }}" class="btn btn-sm btn-outline-danger">Baca Selengkapnya</a>
@@ -294,55 +294,131 @@
     </section>
 
 
-    <!-- Contact Section -->
-    <section class="py-5 bg-light" id="contact">
+    <!-- Kritik & Saran Section -->
+    <section class="py-5 bg-light" id="feedback">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title">Hubungi Kami</h2>
-                <p class="lead">Kami siap membantu Anda</p>
+                <h2 class="section-title" style="display:inline-block;">Kritik & Saran</h2>
+                <p class="lead">Bantu kami menjadi lebih baik dengan masukan Anda</p>
             </div>
-            <div class="row">
-                <div class="col-lg-6 mb-4">
-                    <div class="contact-info">
+
+            @if(session('feedback_success'))
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-8">
+                    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+                        <i class="fas fa-check-circle me-2 fa-lg"></i>
+                        <div>{{ session('feedback_success') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            <div class="row justify-content-center">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="contact-info h-100">
                         <div class="mb-4">
-                            <i class="fas fa-map-marker-alt fa-2x text-primary-red mb-3"></i>
-                            <h5>Alamat</h5>
-                            <p>{{ $contact_address ?? 'Jl. Raya UMKM No. 123, Jakarta Pusat, Indonesia' }}</p>
+                            <div class="feedback-icon-circle mb-3">
+                                <i class="fas fa-comments fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold">Suara Anda Penting</h5>
+                            <p class="text-muted">Setiap kritik dan saran yang Anda berikan membantu kami meningkatkan kualitas layanan SIDEKRA.</p>
                         </div>
                         <div class="mb-4">
-                            <i class="fas fa-phone fa-2x text-primary-red mb-3"></i>
-                            <h5>Telepon</h5>
-                            <p>{{ $contact_phone ?? '+62 812-3456-7890' }}</p>
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="feedback-mini-icon me-3">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Saran</h6>
+                                    <p class="text-muted small mb-0">Ide dan masukan untuk pengembangan platform</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="feedback-mini-icon me-3">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Kritik</h6>
+                                    <p class="text-muted small mb-0">Keluhan atau hal yang perlu diperbaiki</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start">
+                                <div class="feedback-mini-icon me-3">
+                                    <i class="fas fa-envelope-open-text"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Umum</h6>
+                                    <p class="text-muted small mb-0">Pesan atau pertanyaan umum lainnya</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <i class="fas fa-envelope fa-2x text-primary-red mb-3"></i>
-                            <h5>Email</h5>
-                            <p>{{ $contact_email ?? 'info@sidekra.com' }}</p>
-                        </div>
-                        <div>
-                            <i class="fas fa-clock fa-2x text-primary-red mb-3"></i>
-                            <h5>Jam Kerja</h5>
-                            <p>{{ $contact_hours ?? 'Senin - Jumat: 08:00 - 17:00 WIB' }}</p>
+
+                        <div class="mt-4 pt-3 border-top">
+                            <h6 class="fw-bold mb-3"><i class="fas fa-headset text-primary-red me-2"></i>Kontak Langsung</h6>
+                            <p class="small mb-1"><i class="fas fa-map-marker-alt text-muted me-2"></i>{{ $contact_address ?? 'Jl. Raya UMKM No. 123' }}</p>
+                            <p class="small mb-1"><i class="fas fa-phone text-muted me-2"></i>{{ $contact_phone ?? '+62 812-3456-7890' }}</p>
+                            <p class="small mb-0"><i class="fas fa-envelope text-muted me-2"></i>{{ $contact_email ?? 'info@sidekra.com' }}</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <form class="contact-form">
+                    <form class="contact-form" action="{{ route('feedback.store') }}" method="POST">
+                        @csrf
+                        <h5 class="fw-bold mb-4"><i class="fas fa-paper-plane text-primary-red me-2"></i>Kirim Kritik & Saran</h5>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Nama Lengkap" required>
+                                <label for="feedback-name" class="form-label fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+                                <input type="text" id="feedback-name" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Masukkan nama Anda" value="{{ old('name') }}" required>
+                                @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
-                                <input type="email" class="form-control" placeholder="Email" required>
+                                <label for="feedback-email" class="form-label fw-semibold">Email</label>
+                                <input type="email" id="feedback-email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="email@contoh.com" value="{{ old('email') }}">
+                                @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="feedback-subject" class="form-label fw-semibold">Subjek <span class="text-danger">*</span></label>
+                                <input type="text" id="feedback-subject" name="subject" class="form-control @error('subject') is-invalid @enderror" placeholder="Topik pesan Anda" value="{{ old('subject') }}" required>
+                                @error('subject')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="feedback-type" class="form-label fw-semibold">Tipe <span class="text-danger">*</span></label>
+                                <select id="feedback-type" name="type" class="form-select @error('type') is-invalid @enderror" required>
+                                    <option value="umum" {{ old('type') == 'umum' ? 'selected' : '' }}>Umum</option>
+                                    <option value="kritik" {{ old('type') == 'kritik' ? 'selected' : '' }}>Kritik</option>
+                                    <option value="saran" {{ old('type') == 'saran' ? 'selected' : '' }}>Saran</option>
+                                </select>
+                                @error('type')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control" placeholder="Subjek" required>
+                                <label for="feedback-message" class="form-label fw-semibold">Pesan <span class="text-danger">*</span></label>
+                                <textarea id="feedback-message" name="message" class="form-control @error('message') is-invalid @enderror" rows="5" placeholder="Tulis kritik, saran, atau pesan Anda di sini..." required>{{ old('message') }}</textarea>
+                                @error('message')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-12">
-                                <textarea class="form-control" rows="5" placeholder="Pesan Anda" required></textarea>
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-shield-alt text-primary-red me-1"></i>Keamanan <span class="text-danger">*</span>
+                                </label>
+                                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                                @error('g-recaptcha-response')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary-red">Kirim Pesan</button>
+                                <button type="submit" class="btn btn-primary-red w-100 py-2">
+                                    <i class="fas fa-paper-plane me-2"></i>Kirim Pesan
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -548,5 +624,51 @@
     opacity: 0.9;
     margin-top: 0.25rem;
 }
+
+/* Feedback Section */
+.feedback-icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 5px 15px rgba(214, 40, 40, 0.3);
+}
+
+.feedback-mini-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 10px;
+    background: var(--light-red, #f8edeb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-red);
+    font-size: 1rem;
+}
+
+.contact-form .form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.contact-form .form-select:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 0.2rem rgba(214, 40, 40, 0.25);
+}
+
+.contact-form .form-label {
+    font-size: 0.9rem;
+    color: #495057;
+}
 </style>
+@endpush
+
+@push('scripts')
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endpush
