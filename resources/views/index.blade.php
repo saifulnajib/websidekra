@@ -410,13 +410,13 @@
                                 <label class="form-label fw-semibold">
                                     <i class="fas fa-shield-alt text-primary-red me-1"></i>Keamanan <span class="text-danger">*</span>
                                 </label>
-                                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}" data-callback="enableFeedbackSubmit" data-expired-callback="disableFeedbackSubmit"></div>
                                 @error('g-recaptcha-response')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary-red w-100 py-2">
+                                <button type="submit" id="feedback-submit-btn" class="btn btn-primary-red w-100 py-2" disabled>
                                     <i class="fas fa-paper-plane me-2"></i>Kirim Pesan
                                 </button>
                             </div>
@@ -671,4 +671,13 @@
 
 @push('scripts')
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+    function enableFeedbackSubmit() {
+        document.getElementById('feedback-submit-btn').removeAttribute('disabled');
+    }
+
+    function disableFeedbackSubmit() {
+        document.getElementById('feedback-submit-btn').setAttribute('disabled', 'disabled');
+    }
+</script>
 @endpush

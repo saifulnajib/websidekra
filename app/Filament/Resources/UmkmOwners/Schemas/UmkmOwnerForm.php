@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\UmkmOwners\Schemas;
 
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -49,6 +51,35 @@ class UmkmOwnerForm
                     ->numeric(),
                 TextInput::make('longitude')
                     ->numeric(),
+                Repeater::make('legalities')
+                    ->relationship()
+                    ->schema([
+                        Select::make('type')
+                            ->label('Jenis Legalitas')
+                            ->options([
+                                'NIB' => 'Nomor Induk Berusaha (NIB)',
+                                'NPWP' => 'NPWP',
+                                'HALAL' => 'Sertifikasi Halal',
+                                'PIRT' => 'P-IRT',
+                                'BPOM' => 'BPOM',
+                                'LAINNYA' => 'Lainnya',
+                            ])
+                            ->required(),
+                        TextInput::make('number')
+                            ->label('Nomor Legalitas')
+                            ->required(),
+                        DatePicker::make('valid_until')
+                            ->label('Berlaku Hingga')
+                            ->nullable(),
+                        FileUpload::make('document_path')
+                            ->label('Dokumen Lampiran')
+                            ->directory('umkm-legalities')
+                            ->acceptedFileTypes(['application/pdf', 'image/*'])
+                            ->nullable()
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->addActionLabel('Tambah Legalitas'),
             ]);
     }
 }

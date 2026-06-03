@@ -61,6 +61,14 @@ class UmkmOwner extends Model
     }
 
     /**
+     * Get the legalities for the UMKM owner.
+     */
+    public function legalities()
+    {
+        return $this->hasMany(UmkmLegality::class, 'umkm_owner_id');
+    }
+
+    /**
      * Get the artisans for the UMKM owner.
      */
     public function artisans()
